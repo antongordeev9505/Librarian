@@ -36,10 +36,13 @@ package com.raywenderlich.android.librarian
 
 import android.app.Application
 import com.raywenderlich.android.librarian.database.LibrarianDatabase
+import com.raywenderlich.android.librarian.database.repository.LibrarianRepository
+import com.raywenderlich.android.librarian.database.repository.LibrarianRepositoryImpl
 
 class App : Application() {
 
   companion object {
+    //keep initialization in one place
     private lateinit var instance: App
 
     //provide dependency of DB to the App
