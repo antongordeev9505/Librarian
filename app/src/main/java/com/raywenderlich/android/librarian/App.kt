@@ -49,6 +49,16 @@ class App : Application() {
     private val database: LibrarianDatabase by lazy {
       LibrarianDatabase.buildDatabase(instance)
     }
+
+    //exposing value here as a interface all app can use repository without creating it
+    val repository: LibrarianRepository by lazy {
+      LibrarianRepositoryImpl(
+        database.bookDao(),
+        database.genreDao(),
+        database.readingListDao(),
+        database.reviewDao()
+      )
+    }
   }
 
   override fun onCreate() {
