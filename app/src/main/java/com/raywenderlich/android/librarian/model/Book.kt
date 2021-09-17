@@ -35,13 +35,21 @@
 package com.raywenderlich.android.librarian.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
+//created entity and change the name of table
+@Entity(tableName = "books")
 class Book(
+    @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
     val name: String,
     val description: String,
+    //change the name for DB
+    @ColumnInfo(name = "bookGenreId")
     val genreId: String
 ) : Parcelable
