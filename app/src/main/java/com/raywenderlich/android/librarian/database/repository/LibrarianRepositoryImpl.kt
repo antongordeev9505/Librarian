@@ -27,4 +27,6 @@ class LibrarianRepositoryImpl(
     override fun addBook(book: Book) = bookDao.addBook(book)
 
     override fun getGenreById(genreId: String): Genre = genreDao.getGenreById(genreId)
+
+    override fun addGenres(genres: List<Genre>) = genreDao.addGenres(genres)
 }
