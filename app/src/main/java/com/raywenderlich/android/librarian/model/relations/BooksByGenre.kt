@@ -34,10 +34,19 @@
 
 package com.raywenderlich.android.librarian.model.relations
 
+import androidx.room.Embedded
+import androidx.room.Relation
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.model.Genre
 
 class BooksByGenre(
+    @Embedded
     val genre: Genre,
-    val books: List<Book>
+    //get all objects which have the same bookGenreID
+    //обратная ситуация от one to one
+    //parentColumn - id of Genre Entity
+    //entityColumn - bookGenreId in Book Entity
+    @Relation(parentColumn = "id", entityColumn = "bookGenreId")
+    //if there is not object Room returns nullable list
+    val books: List<Book>?
 )

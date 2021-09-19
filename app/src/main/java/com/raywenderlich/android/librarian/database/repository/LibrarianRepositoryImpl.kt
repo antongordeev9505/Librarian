@@ -10,6 +10,7 @@ import com.raywenderlich.android.librarian.model.ReadingList
 import com.raywenderlich.android.librarian.model.Review
 import com.raywenderlich.android.librarian.model.relations.BookAndGenre
 import com.raywenderlich.android.librarian.model.relations.BookReview
+import com.raywenderlich.android.librarian.model.relations.BooksByGenre
 import com.raywenderlich.android.librarian.model.relations.ReadingListsWithBooks
 
 class LibrarianRepositoryImpl(
@@ -58,4 +59,11 @@ class LibrarianRepositoryImpl(
     }
 
     override fun removeReadingList(readingList: ReadingList) = readingListDao.removeReadingList(readingList)
+
+    override fun getBooksByGenre(genreId: String): List<BookAndGenre> =
+        genreDao.getBooksByGenre(genreId).let { booksByGenre ->
+            val books = booksByGenre.books ?: return emptyList()
+
+            return books.map { BookAndGenre(it, booksByGenre.genre) }
+        }
 }
