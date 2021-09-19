@@ -114,7 +114,7 @@ class BooksFragment : Fragment() {
   }
 
   private fun removeBook(book: Book) {
-    // TODO remove book
+    repository.removeBook(book)
     loadBooks()
   }
 }
