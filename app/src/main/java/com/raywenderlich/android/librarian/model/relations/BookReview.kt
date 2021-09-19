@@ -35,6 +35,7 @@
 package com.raywenderlich.android.librarian.model.relations
 
 import android.os.Parcelable
+import androidx.room.Entity
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.model.Review
 import kotlinx.android.parcel.Parcelize

@@ -42,7 +42,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-@Entity
+@Entity(tableName = "readingList")
 class ReadingList(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
