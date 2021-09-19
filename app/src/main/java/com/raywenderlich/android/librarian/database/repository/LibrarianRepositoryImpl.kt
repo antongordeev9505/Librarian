@@ -21,10 +21,8 @@ class LibrarianRepositoryImpl(
     //hold the code to fetch the data and send it to UI
     //make here any additional operations to the data before send it to the UI
 
-    //combine 2 daos
-    override fun getBooks(): List<BookAndGenre> = bookDao.getBooks().map {
-        BookAndGenre(it, genreDao.getGenreById(it.genreId))
-    }
+    //use relations of entities for easy
+    override fun getBooks(): List<BookAndGenre> = bookDao.getBooks()
 
     override fun addBook(book: Book) = bookDao.addBook(book)
 
