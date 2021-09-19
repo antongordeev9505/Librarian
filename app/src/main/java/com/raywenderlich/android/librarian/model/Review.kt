@@ -35,6 +35,7 @@
 package com.raywenderlich.android.librarian.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -46,6 +47,7 @@ import java.util.*
 data class Review(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo(name = "bookReviewId")
     val bookId: String,
     val rating: Int,
     val notes: String,

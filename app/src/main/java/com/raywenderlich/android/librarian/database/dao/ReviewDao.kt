@@ -15,11 +15,14 @@ interface ReviewDao {
     fun updateReview(review: Review)
 
     @Query("SELECT * FROM review")
-    fun getReviews(): List<Review>
+    fun getReviews(): List<BookReview>
 
     @Delete
     fun removeReview(review: Review)
 
     @Query("SELECT * FROM review WHERE id = :reviewId")
-    fun getReviewById(reviewId: String): Review
+    fun getReviewById(reviewId: String): BookReview
+
+    @Query("SELECT * FROM review WHERE rating >= :rating")
+    fun getReviewsByRating(rating: Int): List<BookReview>
 }

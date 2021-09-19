@@ -48,4 +48,6 @@ interface LibrarianRepository {
     fun removeReadingList(readingList: ReadingList)
 
     fun getBooksByGenre(genreId: String): List<BookAndGenre>
+
+    fun getBooksByRating(rating: Int): List<BookAndGenre>
 }
