@@ -41,11 +41,11 @@ interface LibrarianRepository {
 
     fun removeReview(review: Review)
 
-    fun addReadingList(readingList: ReadingList)
+    suspend fun addReadingList(readingList: ReadingList)
 
-    fun getReadingList(): List<ReadingListsWithBooks>
+    suspend fun getReadingList(): List<ReadingListsWithBooks>
 
-    fun removeReadingList(readingList: ReadingList)
+    suspend fun removeReadingList(readingList: ReadingList)
 
     fun getBooksByGenre(genreId: String): List<BookAndGenre>
 
