@@ -37,6 +37,7 @@ package com.raywenderlich.android.librarian.model
 import android.os.Parcelable
 import androidx.room.*
 import com.raywenderlich.android.librarian.database.converters.DateConverter
+import com.raywenderlich.android.librarian.database.converters.ReadingEntryConverter
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -52,7 +53,10 @@ data class Review(
     val imageUrl: String,
     //this property has to be converted , cuz it is complex type of property
     @TypeConverters(DateConverter::class)
-    val lastUpdatedDate: Date
-//    val entries: List<ReadingEntry>,
+    val lastUpdatedDate: Date,
+    //new property - list of objects
+    //must to parse it to JSON string for DB
+    @TypeConverters(ReadingEntryConverter::class)
+    val entries: List<ReadingEntry>
 
 ) : Parcelable

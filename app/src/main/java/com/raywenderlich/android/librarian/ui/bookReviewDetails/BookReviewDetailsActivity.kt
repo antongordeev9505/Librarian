@@ -38,6 +38,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.raywenderlich.android.librarian.App
@@ -51,6 +52,7 @@ import com.raywenderlich.android.librarian.utils.createAndShowDialog
 import com.raywenderlich.android.librarian.utils.formatDateToText
 import com.raywenderlich.android.librarian.utils.toast
 import kotlinx.android.synthetic.main.activity_book_review_details.*
+import kotlinx.coroutines.launch
 import java.util.*
 
 class BookReviewDetailsActivity : AppCompatActivity() {
@@ -108,7 +110,7 @@ class BookReviewDetailsActivity : AppCompatActivity() {
     lastUpdated.text = formatDateToText(data.review.lastUpdatedDate)
     bookGenre.text = genre.name
 
-//    adapter.setData(data.review.entries)
+    adapter.setData(data.review.entries)
   }
 
   private fun refreshData(id: String) {
@@ -131,25 +133,28 @@ class BookReviewDetailsActivity : AppCompatActivity() {
   private fun addNewEntry(readingEntry: ReadingEntry) {
     val data = bookReview?.review ?: return
 
-//    val updatedReview = data.copy(entries = data.entries + readingEntry,
-//        lastUpdatedDate = Date())
+    val updatedReview = data.copy(entries = data.entries + readingEntry,
+        lastUpdatedDate = Date())
 
-    // TODO update review
-    toast("Entry added!")
-
-    displayData(data.id)
+    lifecycleScope.launch {
+      repository.updateReview(updatedReview)
+      toast("Entry added!")
+      displayData(data.id)
+    }
   }
 
   private fun removeReadingEntry(readingEntry: ReadingEntry) {
     val data = bookReview ?: return
     val currentReview = data.review
 
-//    val newReview = currentReview.copy(
-//        entries = currentReview.entries - readingEntry,
-//        lastUpdatedDate = Date()
-//    )
-    // TODO update review
+    val newReview = currentReview.copy(
+        entries = currentReview.entries - readingEntry,
+        lastUpdatedDate = Date()
+    )
 
-    loadData()
+    lifecycleScope.launch {
+      repository.updateReview(newReview)
+      loadData()
+    }
   }
 }

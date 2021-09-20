@@ -88,8 +88,8 @@ class AddBookReviewActivity : AppCompatActivity() {
           rating = rating,
           notes = notes,
           imageUrl = imageUrl,
-          lastUpdatedDate = Date()
-//          entries = emptyList(),
+          lastUpdatedDate = Date(),
+          entries = emptyList(),
       )
 
       repository.addReview(bookReview)
