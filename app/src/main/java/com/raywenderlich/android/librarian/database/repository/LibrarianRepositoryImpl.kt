@@ -23,13 +23,13 @@ class LibrarianRepositoryImpl(
     //make here any additional operations to the data before send it to the UI
 
     //use relations of entities for easy
-    override fun getBooks(): List<BookAndGenre> = bookDao.getBooks()
+    override suspend fun getBooks(): List<BookAndGenre> = bookDao.getBooks()
 
-    override fun addBook(book: Book) = bookDao.addBook(book)
+    override suspend fun addBook(book: Book) = bookDao.addBook(book)
 
     override fun getBookById(bookId: String): Book = bookDao.getBookById(bookId)
 
-    override fun removeBook(book: Book) = bookDao.removeBook(book)
+    override suspend fun removeBook(book: Book) = bookDao.removeBook(book)
 
     override fun getGenres(): List<Genre> = genreDao.getGenres()
 

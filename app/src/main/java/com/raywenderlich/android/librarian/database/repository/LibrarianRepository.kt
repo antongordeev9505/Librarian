@@ -17,13 +17,13 @@ interface LibrarianRepository {
     //there will be here all the functions which needed to communicate to DB
 
     //we can combine data - example - return type
-    fun getBooks(): List<BookAndGenre>
+    suspend fun getBooks(): List<BookAndGenre>
 
-    fun addBook(book: Book)
+    suspend fun addBook(book: Book)
 
     fun getBookById(bookId: String): Book
 
-    fun removeBook(book: Book)
+    suspend fun removeBook(book: Book)
 
     fun getGenres(): List<Genre>
 
