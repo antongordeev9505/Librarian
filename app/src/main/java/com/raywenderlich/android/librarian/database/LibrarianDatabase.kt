@@ -10,12 +10,13 @@ import com.raywenderlich.android.librarian.database.dao.BookDao
 import com.raywenderlich.android.librarian.database.dao.GenreDao
 import com.raywenderlich.android.librarian.database.dao.ReadingListDao
 import com.raywenderlich.android.librarian.database.dao.ReviewDao
+import com.raywenderlich.android.librarian.database.migrations.migration_1_2
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.model.Genre
 import com.raywenderlich.android.librarian.model.ReadingList
 import com.raywenderlich.android.librarian.model.Review
 
-const val DATABASE_VERSION = 1
+const val DATABASE_VERSION = 2
 
 //create DB
 @Database(
@@ -45,6 +46,10 @@ abstract class LibrarianDatabase: RoomDatabase() {
                 DATABASE_NAME
             )
                 .allowMainThreadQueries()
+                .addMigrations(migration_1_2)
+                    //если мы забыли сделать миграцию - эта строчка не закрашит приложение, но очистит всю базу данных перед новым запуском приложения
+                    //тем самым пользователь потеряет все данные
+//                .fallbackToDestructiveMigration()
                 .build()
         }
     }
