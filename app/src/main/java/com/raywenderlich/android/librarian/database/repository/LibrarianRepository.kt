@@ -12,6 +12,7 @@ import com.raywenderlich.android.librarian.model.relations.BookAndGenre
 import com.raywenderlich.android.librarian.model.relations.BookReview
 import com.raywenderlich.android.librarian.model.relations.BooksByGenre
 import com.raywenderlich.android.librarian.model.relations.ReadingListsWithBooks
+import kotlinx.coroutines.flow.Flow
 
 interface LibrarianRepository {
     //there will be here all the functions which needed to communicate to DB
@@ -36,6 +37,8 @@ interface LibrarianRepository {
     fun updateReview(review: Review)
 
     fun getReviews(): List<BookReview>
+
+    fun getReviewsFlow(): Flow<List<BookReview>>
 
     fun getReviewById(reviewId: String): BookReview
 

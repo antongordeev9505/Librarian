@@ -39,6 +39,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raywenderlich.android.librarian.App
 import com.raywenderlich.android.librarian.R
@@ -48,6 +49,9 @@ import com.raywenderlich.android.librarian.ui.addReview.AddBookReviewActivity
 import com.raywenderlich.android.librarian.ui.bookReviewDetails.BookReviewDetailsActivity
 import com.raywenderlich.android.librarian.utils.createAndShowDialog
 import kotlinx.android.synthetic.main.fragment_reviews.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * Fetches and displays notes from the API.
@@ -59,6 +63,8 @@ class BookReviewsFragment : Fragment() {
   private val adapter by lazy { BookReviewAdapter(::onItemSelected, ::onItemLongTapped) }
 
   private val repository by lazy { App.repository }
+  //get the flow of bookreview stream
+  private val bookReviewsFlow by lazy { repository.getReviewsFlow() }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
       savedInstanceState: Bundle?): View? {
@@ -73,11 +79,10 @@ class BookReviewsFragment : Fragment() {
   }
 
   private fun initUi() {
-    pullToRefresh.setOnRefreshListener {
-      loadBookReviews()
-    }
     reviewsRecyclerView.layoutManager = LinearLayoutManager(context)
     reviewsRecyclerView.adapter = adapter
+    //pull to refresh functions no need, cuz we use flow, which update list immidiatly
+    pullToRefresh.isEnabled = false
   }
 
   private fun initListeners() {
@@ -86,8 +91,6 @@ class BookReviewsFragment : Fragment() {
           AddBookReviewActivity.getIntent(requireContext()), REQUEST_CODE_ADD_REVIEW
       )
     }
-
-    pullToRefresh.setOnRefreshListener { loadBookReviews() }
   }
 
   private fun onItemSelected(item: BookReview) {
@@ -106,11 +109,15 @@ class BookReviewsFragment : Fragment() {
     loadBookReviews()
   }
 
-  private fun loadBookReviews() {
-    pullToRefresh.isEnabled = true
-
-    adapter.setData(repository.getReviews())
-
-    pullToRefresh.isRefreshing = false
+  private fun loadBookReviews() = lifecycleScope.launch {
+    //catch the error
+    bookReviewsFlow.catch { error ->
+      error.printStackTrace()
+      //collect starts the flow and listening the values
+    }.collect { bookreviews ->
+      //first we will get the initial query if bookreviews followed by any new bookreview if we updated db
+      //the values will be collected in the Main thread
+      adapter.setData(bookreviews)
+    }
   }
 }
